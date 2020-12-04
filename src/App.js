@@ -1,5 +1,6 @@
 import React from 'react'
 import "./styles/app.scss";
+import data from './util'
 
 import Song from './components/Song'
 import Player from './components/Player'
