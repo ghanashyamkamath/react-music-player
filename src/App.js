@@ -36,7 +36,7 @@ function App() {
     <div className="App">
       <Song currentSong={currentSong} />
       <Player audioRef={audioRef} setSongInfo={setSongInfo} songInfo={songInfo} isPlaying={isPlaying} setIsPlaying={setIsPlaying} currentSong={currentSong}/>
-      <Library audioRef={audioRef} isPlaying={isPlaying} songs={songs} setCurrentSong={setCurrentSong}/>
+      <Library audioRef={audioRef} setSongs={setSongs} isPlaying={isPlaying} songs={songs} setCurrentSong={setCurrentSong}/>
 
       <audio
         onTimeUpdate={timeUpdateHandler}

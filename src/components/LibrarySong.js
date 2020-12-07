@@ -1,6 +1,6 @@
 import React from "react";
 
-const LibrarySong = ({ song,songs,setCurrentSong,id,audioRef,isPlaying}) => {
+const LibrarySong = ({ song,songs,setCurrentSong,id,audioRef,isPlaying,setSongs}) => {
 
   const songSelectHandler = () => {
     // const selectedSong = songs.filter((state) => state.id===id);
@@ -8,6 +8,22 @@ const LibrarySong = ({ song,songs,setCurrentSong,id,audioRef,isPlaying}) => {
     // console.log(selectedSong)
     // setCurrentSong(selectedSong[0])
     setCurrentSong(song);
+    //add active state
+    const newSongs =songs.map((song) => {
+      if(song.id===id){
+        return{
+          ...song,
+          active:true,
+        };
+
+      }else{
+        return{
+          ...song,
+          active:false,
+        }
+      }
+    })
+    setSongs(newSongs)
 
     // audioRef.current.play();
     //check if it is playing
@@ -22,7 +38,7 @@ const LibrarySong = ({ song,songs,setCurrentSong,id,audioRef,isPlaying}) => {
 
   }
   return (
-    <div onClick={songSelectHandler} className="library-song">
+    <div onClick={songSelectHandler} className={`library-song ${song.active? 'selected' : ""}`}>
       <img alt={song.name} src={song.cover}></img>
 
       <div className="song-description">
