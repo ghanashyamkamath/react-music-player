@@ -23,7 +23,7 @@ const LibrarySong = ({ song,songs,setCurrentSong,id,audioRef,isPlaying,setSongs}
         }
       }
     })
-    setSongs(newSongs)
+    setSongs(newSongs);
 
     // audioRef.current.play();
     //check if it is playing
