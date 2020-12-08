@@ -1,30 +1,28 @@
-import React , {useState,useEffect} from 'react'
+import React  from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay,faAngleLeft,faAngleRight,faPause } from "@fortawesome/free-solid-svg-icons";
 
 
 const Player = ({ audioRef, currentSong, isPlaying, setIsPlaying,setSongInfo, songInfo,songs,setCurrentSong,setSongs}) => {
 
-  //UseEffect
-  useEffect(() => {
-    //Add active state
-    const newSongs =songs.map((song) => {
-      if(song.id === currentSong.id){
-        return{
+  const activeLibraryHandler = (nextPrev) =>{
+    const newSongs = songs.map((song) => {
+      if (song.id === nextPrev.id) {
+        return {
           ...song,
-          active:true,
+          active: true,
         };
-
-      }else{
-        return{
+      } else {
+        return {
           ...song,
-          active:false,
-        }
+          active: false,
+        };
       }
-    })
+    });
     setSongs(newSongs);
+  }
 
-  },[currentSong]);
+  
   
   //Event Handlers
   const playSongHandler = () => {
@@ -55,6 +53,7 @@ const Player = ({ audioRef, currentSong, isPlaying, setIsPlaying,setSongInfo, so
     let currentIndex = songs.findIndex((song) => song.id===currentSong.id)
     if(direction === 'skip-forward'){
     await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+    activeLibraryHandler(songs[(currentIndex + 1) % songs.length]);
       // console.log(`next index ${currentIndex + 1}`)
       // console.log(`songs length ${songs.length + 1}`)
 
@@ -63,12 +62,16 @@ const Player = ({ audioRef, currentSong, isPlaying, setIsPlaying,setSongInfo, so
     if(direction === 'skip-back'){
       if((currentIndex - 1) % songs.length === -1){
         await setCurrentSong(songs[songs.length - 1]);
+              activeLibraryHandler(songs[songs.length - 1]);
                 if (isPlaying) audioRef.current.play();
 
 
         return;
       }
           await  setCurrentSong(songs[(currentIndex - 1) % songs.length]);
+                        activeLibraryHandler(songs[(currentIndex - 1) % songs.length]);
+
+          
 
       
     }
