@@ -1,7 +1,7 @@
 import React , {useState,useEffect} from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay,faAngleLeft,faAngleRight,faPause } from "@fortawesome/free-solid-svg-icons";
-import {playAudio} from '../util'
+
 
 const Player = ({ audioRef, currentSong, isPlaying, setIsPlaying,setSongInfo, songInfo,songs,setCurrentSong,setSongs}) => {
 
@@ -51,10 +51,10 @@ const Player = ({ audioRef, currentSong, isPlaying, setIsPlaying,setSongInfo, so
     setSongInfo({...songInfo , currentTime : e.target.value})
 
   }
-  const skipTrackHandler = (direction) =>{
+  const skipTrackHandler = async (direction) =>{
     let currentIndex = songs.findIndex((song) => song.id===currentSong.id)
     if(direction === 'skip-forward'){
-      setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+    await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
       // console.log(`next index ${currentIndex + 1}`)
       // console.log(`songs length ${songs.length + 1}`)
 
@@ -62,17 +62,17 @@ const Player = ({ audioRef, currentSong, isPlaying, setIsPlaying,setSongInfo, so
     }
     if(direction === 'skip-back'){
       if((currentIndex - 1) % songs.length === -1){
-        setCurrentSong(songs[songs.length - 1]);
-            playAudio(isPlaying, audioRef);
+        await setCurrentSong(songs[songs.length - 1]);
+                if (isPlaying) audioRef.current.play();
+
 
         return;
       }
-            setCurrentSong(songs[(currentIndex - 1) % songs.length]);
+          await  setCurrentSong(songs[(currentIndex - 1) % songs.length]);
 
       
     }
-    playAudio(isPlaying,audioRef);
-
+    if (isPlaying) audioRef.current.play();
     
 
   }
